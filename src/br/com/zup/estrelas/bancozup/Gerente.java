@@ -17,6 +17,15 @@ public class Gerente implements IControleLimite {
 		this.clientes = new Cliente[QTD_MAX_CLIENTES];
 	}
 
+	public boolean verificaExistenciaDaConta (String numeroConta) {
+		for (int i = 0; i < clientes.length; i++) {
+			if (clientes [i] != null && !clientes [i].getNumeroConta().equals(numeroConta)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void cadastrarCliente(Cliente cliente) throws ExcedeLimiteQtdClientesException {
 		for (int i = 0; i < this.clientes.length; i++) {
 			if (this.clientes[i] == null) {

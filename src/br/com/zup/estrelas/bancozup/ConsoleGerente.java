@@ -10,48 +10,36 @@ import br.com.zup.estrelas.bancozup.exceptions.SemSaldoException;
 
 public class ConsoleGerente {
 
-	public static void menuPrincipal() {
-		System.out.println("\t# Sistema De Gerenciamento de Clientes #\n");
-		System.out.println("\t(1) - Cadastrar novo cliente;");
-		System.out.println("\t(2) - Remover cliente;");
-		System.out.println("\t(3) - Aumentar limite cartão;");
-		System.out.println("\t(4) - Diminuir limite cartão;");
-		System.out.println("\t(5) - Aumentar limite cheque especial;");
-		System.out.println("\t(6) - Diminuir limite cheque especial;");
-		System.out.println("\t(7) - Realizar transferência;");
-		System.out.println("\t(8) - Realizar depósito;");
-		System.out.println("\t(9) - Imprimir clientes;");
-		System.out.println("\t(0) - Finalizar programa;\n");
-		System.out.print("\n\n\tEscolha uma das opções acima: ");
-	}
+	final static String MENU_PRINCIPAL = ("\t# Sistema De Gerenciamento de Clientes #\n\n")
+			+ ("\t(1) - Cadastrar novo cliente;\n") + ("\t(2) - Remover cliente;\n")
+			+ ("\t(3) - Aumentar limite cartão;\n") + ("\t(4) - Diminuir limite cartão;\n")
+			+ ("\t(5) - Aumentar limite cheque especial;\n") + ("\t(6) - Diminuir limite cheque especial;\n")
+			+ ("\t(7) - Realizar transferência;\n") + ("\t(8) - Realizar depósito;\n")
+			+ ("\t(9) - Imprimir clientes;\n") + ("\t(0) - Finalizar programa;\n");
 
-	public static void menuSecundario() {
-		System.out.println("\n\t(1) - Cadastrar pessoa física");
-		System.out.println("\t(2) - Cadastrar pessoa jurídica");
-		System.out.println("\t(0) - Ir para o menu principal\n");
+	final static String MENU_SECUNDARIO = ("\n\t(1) - Cadastrar pessoa física\n")
+			+ ("\t(2) - Cadastrar pessoa jurídica\n") + ("\t(0) - Ir para o menu principal\n");
 
-		System.out.print("\n\tEscolha uma das opções acima: ");
-	}
-	
 	public static void menuCadastrarCliente(Scanner teclado, Gerente gerente) {
 
 		String opcao = null;
 
 		do {
-			menuSecundario();
+			System.out.println(MENU_SECUNDARIO);
+			System.out.print("\n\tEscolha uma das opções acima: ");
 			opcao = teclado.next();
 
 			switch (opcao) {
 			case "1":
-				
-				adicionarPessoaFisica (teclado, gerente);
-				
+
+				adicionarPessoaFisica(teclado, gerente);
+
 				break;
 
 			case "2":
-				
+
 				adicionarPessoaJuridica(teclado, gerente);
-				
+
 				break;
 
 			case "0":
@@ -65,7 +53,7 @@ public class ConsoleGerente {
 		} while (!opcao.equals("0"));
 	}
 
-	public static void adicionarPessoaFisica (Scanner teclado, Gerente gerente) {
+	public static void adicionarPessoaFisica(Scanner teclado, Gerente gerente) {
 		teclado.nextLine();
 		System.out.print("\n\tDigite o nome do cliente: ");
 		String nome = teclado.nextLine();
@@ -103,9 +91,9 @@ public class ConsoleGerente {
 		} catch (ExcedeLimiteQtdClientesException e) {
 			System.out.println(e.getMensagem());
 		}
-		
+
 	}
-	
+
 	public static void adicionarPessoaJuridica(Scanner teclado, Gerente gerente) {
 		teclado.nextLine();
 		System.out.print("\n\tDigite a razão social: ");
@@ -135,7 +123,7 @@ public class ConsoleGerente {
 		System.out.print("\n\tDigite o limite do cartão de crédito: ");
 		double limiteCartaoCredito = teclado.nextDouble();
 		int qtdSocios = 0;
-		
+
 		do {
 			System.out.print("\n\tQuantos socios deseja cadastrar: ");
 			qtdSocios = teclado.nextInt();
@@ -160,7 +148,7 @@ public class ConsoleGerente {
 			System.out.println(e.getMensagem());
 		}
 	}
-	
+
 	public static void deletarConta(Gerente gerente, String numeroConta) {
 		try {
 			gerente.removerCliente(numeroConta);
@@ -169,7 +157,7 @@ public class ConsoleGerente {
 			System.out.println(e.getMsg());
 		}
 	}
-	
+
 	public static void aumentarLimiteCartao(Gerente gerente, String numeroConta, double valorDoAumento) {
 		try {
 			gerente.aumentarLimiteCartao(numeroConta, valorDoAumento);
@@ -178,7 +166,7 @@ public class ConsoleGerente {
 			System.out.println(e2.getMensagem());
 		}
 	}
-	
+
 	public static void reduzirLimiteCartao(Gerente gerente, String numeroConta) {
 		if (gerente.diminuirLimiteCartao(numeroConta)) {
 			System.out.println("\n\tLimite reduzido com sucesso!\n");
@@ -186,7 +174,7 @@ public class ConsoleGerente {
 			System.out.println("\n\tNúmero da conta inexistente!\n");
 		}
 	}
-	
+
 	public static void aumentarLimiteChequeEspecial(Gerente gerente, String numeroConta, double valorAumento) {
 		try {
 			gerente.aumentarLimiteCheque(numeroConta, valorAumento);
@@ -195,16 +183,17 @@ public class ConsoleGerente {
 			System.out.println(e1.getMensagem());
 		}
 	}
-	
-	public static void reduzirLimiteChequeEspecial (Gerente gerente, String numeroConta) {
+
+	public static void reduzirLimiteChequeEspecial(Gerente gerente, String numeroConta) {
 		if (gerente.diminuirLimiteCheque(numeroConta)) {
 			System.out.println("\n\tLimite reduzido com sucesso!\n");
 		} else {
 			System.out.println("\n\tNúmero da conta inexistente!\n");
 		}
 	}
-	
-	public static void realizarTransferencia(Gerente gerente, String numeroContaOrigem, String numeroContaDestino, double valorTransferencia) {
+
+	public static void realizarTransferencia(Gerente gerente, String numeroContaOrigem, String numeroContaDestino,
+			double valorTransferencia) {
 		try {
 			gerente.transferencia(numeroContaOrigem, numeroContaDestino, valorTransferencia);
 			System.out.println("\n\tTransferência realizada com sucesso!\n");
@@ -212,36 +201,38 @@ public class ConsoleGerente {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	public static void realizarDeposito (Gerente gerente, String numeroContaDestino, Double deposito) {
-		
+
+	public static void realizarDeposito(Gerente gerente, String numeroContaDestino, Double deposito) {
+
 		if (gerente.adicionaSaldo(numeroContaDestino, deposito)) {
 			System.out.println("\n\tDeposito realizado com sucesso!\n");
 		} else {
 			System.out.println("\n\tDeposito não realizado!\n");
 		}
 	}
-	
+
 	public static void main(String[] args) {
+
 		Scanner teclado = new Scanner(System.in);
 		Gerente gerente = new Gerente();
 
 		String opcao = null;
 
 		do {
-			menuPrincipal();
+			System.out.println(MENU_PRINCIPAL);
+			System.out.print("\n\n\tEscolha uma das opções acima: ");
 			opcao = teclado.next();
 
 			switch (opcao) {
 			case "1":
 				menuCadastrarCliente(teclado, gerente);
-				
+
 				break;
-				
+
 			case "2":
 				System.out.print("\n\tDigite o número da conta que deseja excluir: ");
 				String numeroConta = teclado.next();
-				
+
 				deletarConta(gerente, numeroConta);
 
 				break;
@@ -251,17 +242,17 @@ public class ConsoleGerente {
 				numeroConta = teclado.next();
 				System.out.print("\n\tDigite o valor a ser acrescentado ao limite: ");
 				double valorDoAumento = teclado.nextDouble();
-				
+
 				aumentarLimiteCartao(gerente, numeroConta, valorDoAumento);
-				
+
 				break;
 
 			case "4":
 				System.out.print("\n\tDigite o número da conta que deseja reduzir o limite: ");
 				numeroConta = teclado.next();
-				
+
 				reduzirLimiteCartao(gerente, numeroConta);
-				
+
 				break;
 
 			case "5":
@@ -269,17 +260,17 @@ public class ConsoleGerente {
 				numeroConta = teclado.next();
 				System.out.print("\n\tDigite o valor a ser acrescentado ao limite: ");
 				double valorAumento = teclado.nextDouble();
-				
+
 				aumentarLimiteChequeEspecial(gerente, numeroConta, valorAumento);
-				
+
 				break;
 
 			case "6":
 				System.out.print("\n\tDigite o número da conta que deseja reduzir o limite: ");
 				numeroConta = teclado.next();
-				
+
 				reduzirLimiteChequeEspecial(gerente, numeroConta);
-				
+
 				break;
 
 			case "7":
@@ -291,9 +282,9 @@ public class ConsoleGerente {
 
 				System.out.print("\n\tDigite o valor a ser transferido: R$ ");
 				double valorTransferencia = teclado.nextDouble();
-				
+
 				realizarTransferencia(gerente, numeroContaOrigem, numeroContaDestino, valorTransferencia);
-				
+
 				break;
 
 			case "8":
@@ -303,24 +294,24 @@ public class ConsoleGerente {
 
 				System.out.print("\n\tDigite o valor a ser depositado: ");
 				double deposito = teclado.nextDouble();
-				
-				realizarDeposito(gerente, numeroContaDestino , deposito);
-				
+
+				realizarDeposito(gerente, numeroContaDestino, deposito);
+
 				break;
 
 			case "9":
 				gerente.imprimeClientes();
-				
+
 				break;
 
 			case "0":
 				System.out.println("\n\tObrigado por usar o nosso sistema!\n");
-				
+
 				break;
 
 			default:
 				System.out.println("\n\tOpção inválida! Escolha uma opção de 0 a 9.\n");
-				
+
 				break;
 			}
 
